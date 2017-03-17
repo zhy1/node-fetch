@@ -59,9 +59,15 @@ export default function fetch(url, opts) {
 			});
 		}
 
-		req.on('error', err => {
-			clearTimeout(reqTimeout);
-			reject(new FetchError(`request to ${request.url} failed, reason: ${err.message}`, 'system', err));
+		req.on('error', function (err) {
+			if (opts.resend && opts.resend > 0) {
+				setTimeout(function () {
+					return fetch(url$$1, Object.assign(opts,{resend:--opts.resend}));
+				}, opts.resendInterval||1000);
+			} else {
+				clearTimeout(reqTimeout);
+				reject(new FetchError(`request to ${request.url} failed, reason: ${err.message}`, 'system', err));
+			}
 		});
 
 		req.on('response', res => {
