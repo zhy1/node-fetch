@@ -1,6 +1,6 @@
 {
-  "name": "node-fetch",
-  "version": "2.0.0-alpha.3",
+  "name": "node-fetch-try",
+  "version": "2.0.1",
   "description": "A light-weight module that brings window.fetch to node.js",
   "main": "lib/index.js",
   "module": "lib/index.es.js",
@@ -20,19 +20,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bitinn/node-fetch.git"
+    "url": "https://github.com/zhy1/node-fetch.git"
   },
   "keywords": [
     "fetch",
     "http",
     "promise"
   ],
-  "author": "David Frank",
+  "author": "zhy1",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bitinn/node-fetch/issues"
+    "url": "https://github.com/zhy1/node-fetch/issues"
   },
-  "homepage": "https://github.com/bitinn/node-fetch",
+  "homepage": "https://github.com/zhy1/node-fetch.git",
   "devDependencies": {
     "babel-plugin-istanbul": "^4.0.0",
     "babel-preset-env": "^1.1.10",
