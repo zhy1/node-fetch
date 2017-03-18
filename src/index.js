@@ -52,20 +52,26 @@ export default function fetch(url, opts) {
 
 		if (request.timeout) {
 			req.once('socket', socket => {
-				reqTimeout = setTimeout(() => {
+				reqTimeout = setTimeout(function () {
 					req.abort();
-					reject(new FetchError(`network timeout at: ${request.url}`, 'request-timeout'));
+					if (opts.resend && opts.resend > 0) {
+						setTimeout(function () {
+							return fetch(url, Object.assign(opts,{resend:--opts.resend}));
+						}, opts.resendInterval||1000);
+					} else {
+						reject(new FetchError(`network timeout at: ${request.url}`, 'request-timeout'));
+					}
 				}, request.timeout);
 			});
 		}
 
 		req.on('error', function (err) {
+			clearTimeout(reqTimeout);
 			if (opts.resend && opts.resend > 0) {
 				setTimeout(function () {
-					return fetch(url$$1, Object.assign(opts,{resend:--opts.resend}));
+					return fetch(url, Object.assign(opts,{resend:--opts.resend}));
 				}, opts.resendInterval||1000);
 			} else {
-				clearTimeout(reqTimeout);
 				reject(new FetchError(`request to ${request.url} failed, reason: ${err.message}`, 'system', err));
 			}
 		});
